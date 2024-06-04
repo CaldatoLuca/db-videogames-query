@@ -78,3 +78,41 @@ WHERE software_house_id = 1
 AND YEAR(release_date) = '2018'
 
 
+RISPOSTE GROUP BY
+
+1
+
+SELECT country, COUNT(id) as total_software_houses
+FROM software_houses
+GROUP BY country
+------------------------------------------------------
+2
+
+SELECT videogame_id, COUNT(id) as total_reviews
+FROM reviews
+GROUP BY videogame_id
+----------------------------------------------------
+3
+
+SELECT COUNT(videogame_id)
+FROM pegi_label_videogame
+GROUP BY pegi_label_id
+----------------------------------------------------
+4
+
+SELECT YEAR(release_date), COUNT(id) total_released_games
+FROM videogames
+GROUP BY YEAR(release_date)
+------------------------------------------------------
+5
+
+SELECT device_id, COUNT(videogame_id) total_avaiable_games
+FROM device_videogame
+GROUP BY device_id
+--------------------------------------------------------
+6
+
+SELECT videogame_id, AVG(rating) AS average_rating
+FROM reviews
+GROUP BY videogame_id
+ORDER BY average_rating DESC;
