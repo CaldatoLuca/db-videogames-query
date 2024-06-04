@@ -116,3 +116,82 @@ SELECT videogame_id, AVG(rating) AS average_rating
 FROM reviews
 GROUP BY videogame_id
 ORDER BY average_rating DESC;
+
+
+RISPOSTE JOIN
+
+1
+SELECT DISTINCT players.*
+FROM players 
+JOIN reviews  ON players.id = reviews.player_id;
+------------------------------------------------------
+2
+
+SELECT DISTINCT videogames.* 
+FROM `videogames` 
+JOIN tournament_videogame ON videogames.id = tournament_videogame.videogame_id
+JOIN tournaments ON tournaments.id = tournament_videogame.tournament_id
+WHERE tournaments.year = 2016;
+------------------------------------------------------
+3
+
+SELECT v.id AS videogame_id, v.name AS videogame_name, c.name AS category_name
+FROM videogames v
+JOIN category_videogame vc ON v.id = vc.videogame_id
+JOIN categories c ON vc.category_id = c.id;
+---------------------------------------------------------------
+4
+
+SELECT DISTINCT software_houses.*
+FROM `software_houses` 
+JOIN videogames ON software_houses.id = videogames.software_house_id
+WHERE YEAR(videogames.release_date) > 2020
+---------------------------------------------------------
+5
+
+SELECT sh.name AS software_house_name, v.name AS videogame_name, a.name AS award_name
+FROM software_houses sh
+JOIN videogames v ON sh.id = v.software_house_id
+JOIN award_videogame va ON v.id = va.videogame_id
+JOIN awards a ON va.award_id = a.id;
+-------------------------------------------------------------
+7
+
+SELECT DISTINCT
+    v.name
+FROM
+    videogames v
+    INNER JOIN tournament_videogame tv ON v.id = tv.videogame_id
+    INNER JOIN tournaments t ON tv.tournament_id = t.id
+    INNER JOIN player_tournament pt ON t.id = pt.tournament_id
+    INNER JOIN players p ON pt.player_id = p.id
+WHERE
+    p.name LIKE 'S%'
+ORDER BY
+    v.name;
+------------------------------------------------------
+8
+
+SELECT DISTINCT tournaments.city
+FROM videogames 
+INNER JOIN award_videogame ON award_videogame.videogame_id = videogames.id
+INNER JOIN awards ON award_videogame.award_id = awards.id
+INNER JOIN tournament_videogame ON videogames.id = tournament_videogame.videogame_id
+INNER JOIN tournaments ON tournament_videogame.tournament_id = tournaments.id
+WHERE awards.id = 1
+AND award_videogame.year = 2018;
+------------------------------------------------------
+9
+
+SELECT DISTINCT players.name
+FROM players
+JOIN player_tournament ON players.id = player_tournament.player_id
+JOIN tournaments ON tournaments.id = player_tournament.tournament_id
+JOIN tournament_videogame ON tournament_videogame.tournament_id = tournaments.id
+JOIN videogames ON tournament_videogame.videogame_id = videogames.id
+JOIN award_videogame ON award_videogame.videogame_id = videogames.id
+JOIN awards ON award_videogame.award_id = awards.id
+WHERE awards.id = 5
+AND award_videogame.year = 2018
+AND tournaments.year = 2019
+

@@ -74,3 +74,5 @@ JOIN
 12- Selezionare la software house che ha vinto più premi tra il 2015 e il 2016 (software house id : potrebbe uscire 3 o 1, sono entrambi a 3)
 
 13- Selezionare le categorie dei videogame i quali hanno una media recensioni inferiore a 2 (10)
+
+
