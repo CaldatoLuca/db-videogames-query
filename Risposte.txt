@@ -155,6 +155,17 @@ JOIN videogames v ON sh.id = v.software_house_id
 JOIN award_videogame va ON v.id = va.videogame_id
 JOIN awards a ON va.award_id = a.id;
 -------------------------------------------------------------
+6 se da 500 è per duplicazione di valori, come id di category e pegi_labels
+
+SELECT DISTINCT videogames.id AS videogame_id, videogames.name AS videogame_name, categories.*, pegi_labels.*
+FROM videogames
+JOIN category_videogame ON category_videogame.id = videogames.id
+JOIN categories ON categories.id = category_videogame.category_id
+JOIN pegi_label_videogame ON pegi_label_videogame.videogame_id = videogames.id
+JOIN pegi_labels ON pegi_labels.id = pegi_label_videogame.pegi_label_id
+JOIN reviews ON videogames.id = reviews.videogame_id
+WHERE reviews.rating >= 4
+--------------------------------------------------------------
 7
 
 SELECT DISTINCT
@@ -183,15 +194,14 @@ AND award_videogame.year = 2018;
 ------------------------------------------------------
 9
 
-SELECT DISTINCT players.name
+SELECT DISTINCT players.name AS player_name, players.lastname AS lastname , videogames.name AS videogame_name
 FROM players
-JOIN player_tournament ON players.id = player_tournament.player_id
-JOIN tournaments ON tournaments.id = player_tournament.tournament_id
+JOIN player_tournament ON player_tournament.player_id = players.id
+JOIN tournaments ON player_tournament.tournament_id = tournaments.id
 JOIN tournament_videogame ON tournament_videogame.tournament_id = tournaments.id
-JOIN videogames ON tournament_videogame.videogame_id = videogames.id
+JOIN videogames ON videogames.id = tournament_videogame.videogame_id
 JOIN award_videogame ON award_videogame.videogame_id = videogames.id
 JOIN awards ON award_videogame.award_id = awards.id
-WHERE awards.id = 5
+WHERE awards.name = 'Gioco più atteso'
 AND award_videogame.year = 2018
 AND tournaments.year = 2019
-
